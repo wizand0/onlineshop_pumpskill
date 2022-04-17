@@ -6,13 +6,10 @@
 </head>
 
 <body>
-<p>Переменная context = {{ context }}</p>
 <ul>
-    <li>my_value = {{ context.my_value }}</li>
-    <li>my_string = {{ context.my_string }}</li>
-    <li>my_true = {{ context.my_true }}</li>
-    <li>my_false = {{ context.my_false }}</li>
-    <li>my_list = {{ context.my_list }}</li>
+    {% for brand in brands_list %}
+    <li>Бренд: <a href="/brand-update/{{ brand.id }}">{{ brand.title }}</a></li>
+    {% endfor %}
 </ul>
 </body>
 

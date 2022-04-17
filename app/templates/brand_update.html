@@ -1,0 +1,21 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет магазин Onlineshop</title>
+</head>
+
+<body>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.title }}
+    <button type="submit" name="action" value="save">Сохранить</button>
+    <button type="submit" name="action" value="del">Удалить бренд</button>
+    {% if form.errors %}
+    <p>{{ form.errors }}</p>
+    {% endif %}
+</form>
+</form>
+</body>
+
+</html>

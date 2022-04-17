@@ -1,24 +1,27 @@
-from flask import render_template
+from app import app, db
+from flask import render_template, request, redirect
 
-from app import app
+from app.forms import BrandUpdateForm
+from app.models import Brand
 
 
 @app.route('/index')
 @app.route('/')
 def index():
-    my_value = 35
-    my_string = 'Привет, всем!'
-    my_true = True
-    my_false = False
-    my_list = [1, 2, 3, 4]
+    brands_list = Brand.query.all()
+    return render_template('index.html', brands_list=brands_list)
 
-    context = {
-        'my_value': my_value,
-        'my_string': my_string,
-        'my_true': my_true,
-        'my_false': my_false,
-        'my_list': my_list,
-    }
 
-    # Передаем словарь context в именованный аргумент context
-    return render_template('index.html', context=context)
+@app.route('/brand-update/<brand_id>', methods=['GET', 'POST'])
+def brand_update(brand_id):
+    brand = Brand.query.get(brand_id)
+    form = BrandUpdateForm(title=brand.title)
+    if form.validate_on_submit():
+        action = request.form.get('action', '')
+        if action == 'save':
+            brand.title = form.title.data
+        elif action == 'del':
+            db.session.delete(brand)
+        db.session.commit()
+        return redirect('/index')
+    return render_template('brand_update.html', brand=brand, form=form)
